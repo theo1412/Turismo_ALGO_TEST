@@ -1,124 +1,124 @@
 # Vehicle Display Algorithm Demo
 
-Prototype Flask pour tester l'algorithme d'affichage des vehicules selon le pays du site, le pays d'immatriculation, les offres disponibles, les prix et la date de disponibilite.
+Flask prototype for testing a vehicle display algorithm based on the website country, vehicle registration country, available offers, pricing, mileage packages, and availability dates.
 
-## Objectif
+## Goal
 
-Le projet simule trois sites pays: France, Belgique et Luxembourg.
+The project simulates three country-specific websites: France, Belgium, and Luxembourg.
 
-Un meme modele peut exister sous plusieurs stocks/variantes:
+The same public vehicle model can exist as multiple stock variants:
 
-- immatriculation differente: `FR`, `BE`, `LU`
-- type different: `neuf` ou `occasion`
-- date de disponibilite differente
-- grille d'offres differente: duree, km/mois, prix
+- different registration country: `FR`, `BE`, `LU`
+- different condition: `neuf` or `occasion`
+- different availability date
+- different offer grid: duration, km/month, price
 
-Le catalogue public agrege les variantes d'un meme modele via `catalog_id`, puis affiche uniquement les offres eligibles.
+The public catalog groups variants of the same model through `catalog_id`, then displays only the eligible offers.
 
-## Regles metier
+## Business Rules
 
-- Les offres sont rattachees au stock du vehicule, pas au site.
-- Un vehicule immatricule dans un autre pays que le site consulte ne peut afficher que les offres de 6 mois maximum.
-- Pour chaque combinaison `duree + km/mois`, l'algorithme affiche le prix le moins cher parmi les stocks eligibles.
-- Le catalogue ne prend en compte que les stocks disponibles dans les 3 prochains mois a partir de la date simulee.
-- Une date de disponibilite vide signifie disponible immediatement.
-- La meme logique s'applique sur la fiche detail vehicule.
+- Offers belong to a vehicle stock variant, not to a website.
+- A vehicle registered in a country different from the visited website can only display offers up to 6 months.
+- For each `duration + km/month` combination, the algorithm displays the cheapest eligible price.
+- The catalog only considers stock variants available within the next 3 months from the simulated date.
+- An empty availability date means the stock is available immediately.
+- The same logic applies on the vehicle detail page.
 
-## Lancer en local
+## Run Locally
 
 ```bash
 python3 -m pip install -r requirements.txt
 python3 -m flask --app app run --port 5002
 ```
 
-Puis ouvrir:
+Then open:
 
 ```text
 http://127.0.0.1:5002
 ```
 
-Interface admin:
+Admin interface:
 
 ```text
 http://127.0.0.1:5002/admin
 ```
 
-## Tester avec ngrok
+## Test With ngrok
 
-Dans un premier terminal:
+In a first terminal:
 
 ```bash
 python3 -m flask --app app run --port 5002
 ```
 
-Dans un second terminal:
+In a second terminal:
 
 ```bash
 ngrok http 5002
 ```
 
-Envoyer l'URL publique ngrok aux testeurs.
+Share the public ngrok URL with testers.
 
-## Fonctionnement de l'admin
+## Admin Workflow
 
-Dans `/admin`, chaque ligne correspond a un stock.
+In `/admin`, each row represents a stock variant.
 
-Champs importants:
+Important fields:
 
-- `Reference catalogue`: permet de regrouper plusieurs stocks sous un meme vehicule public.
-- `Pays d'immatriculation`: determine la regle locale/etrangere.
-- `Type`: `neuf` ou `occasion`.
-- `Date de disponibilite`: sert au filtre des 3 prochains mois.
-- `Offres disponibles`: grille complete `duree / km par mois / prix`.
+- `Reference catalogue`: groups multiple stock variants under the same public vehicle.
+- `Pays d'immatriculation`: defines whether the vehicle is local or foreign for a website.
+- `Type`: `neuf` or `occasion`.
+- `Date de disponibilite`: used by the 3-month availability filter.
+- `Offres disponibles`: complete `duration / km per month / price` grid.
 
-Le bouton `+ Variante` permet de creer rapidement le meme vehicule avec une autre immatriculation, un autre type ou une autre grille tarifaire.
+The `+ Variante` button quickly creates the same vehicle with another registration country, another condition, or another pricing grid.
 
-## Tester l'algorithme
+## Test the Algorithm
 
 ```bash
 behave
 ```
 
-Les scenarios BDD couvrent:
+The BDD scenarios cover:
 
-- restriction des vehicules etrangers a 6 mois
-- choix du prix le moins cher par combinaison duree/km
-- aggregation de plusieurs stocks d'un meme vehicule
-- prise en compte de plusieurs kilometrages
-- filtre dynamique selon la date de disponibilite
+- foreign-registered vehicles limited to 6 months
+- cheapest offer selection per duration/km combination
+- aggregation of multiple stock variants under one public vehicle
+- multiple mileage options
+- dynamic filtering by availability date
 
-## API utile
+## Useful API
 
-Catalogue:
+Catalog:
 
 ```text
 GET /api/catalog?site=BE&today=2026-04-27
 ```
 
-Detail vehicule:
+Vehicle detail:
 
 ```text
 GET /api/vehicle/<catalog_id>?site=LU&today=2026-04-27
 ```
 
-Parametres:
+Parameters:
 
-- `site`: `BE`, `FR` ou `LU`
-- `today`: date simulee au format `YYYY-MM-DD`
+- `site`: `BE`, `FR`, or `LU`
+- `today`: simulated date in `YYYY-MM-DD` format
 
-## Deploiement rapide sur Render
+## Quick Render Deployment
 
-Le projet contient un `Procfile`:
+The project includes a `Procfile`:
 
 ```text
 web: gunicorn app:app
 ```
 
-Sur Render:
+On Render:
 
 - Build Command: `pip install -r requirements.txt`
 - Start Command: `gunicorn app:app`
 - Instance Type: `Free`
 
-Note: sur un hebergement gratuit avec filesystem ephemere, les modifications faites dans `data/vehicles.json` via l'admin peuvent etre perdues au redeploiement. Pour une vraie persistance multi-utilisateur, prevoir une base de donnees.
+Note: on free hosting with an ephemeral filesystem, changes made to `data/vehicles.json` through the admin can be lost after redeploys or restarts. For durable multi-user persistence, use a database.
 
