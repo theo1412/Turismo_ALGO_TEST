@@ -1,0 +1,412 @@
+{% extends "base.html" %}
+{% block title %}TURISMO — Administration{% endblock %}
+
+{% block body %}
+<div class="admin-wrap">
+
+  <aside class="admin-side">
+    <div class="admin-side-hd">
+      <h2>Véhicules</h2>
+      <button class="btn btn-primary btn-sm" onclick="openVehicleModal()">+ Ajouter</button>
+    </div>
+    <div class="vlist" id="vlist"></div>
+  </aside>
+
+  <main class="admin-main" id="admin-main">
+    <div class="admin-empty">
+      <span style="font-size:2.5rem">🚗</span>
+      <h2>Sélectionnez un véhicule</h2>
+      <p style="font-size:.875rem">Chaque ligne représente un stock avec son pays d'immatriculation et sa grille complète d'offres.</p>
+    </div>
+  </main>
+
+</div>
+
+<div class="overlay hidden" id="modal-vehicle">
+  <div class="modal">
+    <h3 id="modal-v-title">Ajouter un véhicule</h3>
+    <div class="form-grid">
+      <div class="fg">
+        <label>Référence catalogue</label>
+        <input id="v-catalog-id" placeholder="model-y">
+      </div>
+      <div class="fg">
+        <label>Nom complet</label>
+        <input id="v-name" placeholder="Porsche 911 Carrera S">
+      </div>
+      <div class="fg">
+        <label>Marque</label>
+        <input id="v-brand" placeholder="Porsche">
+      </div>
+      <div class="fg">
+        <label>Puissance (cv)</label>
+        <input id="v-power" type="number" placeholder="450">
+      </div>
+      <div class="fg">
+        <label>Catégorie</label>
+        <input id="v-category" placeholder="Coupé Sport">
+      </div>
+      <div class="fg">
+        <label>Type</label>
+        <select id="v-type">
+          <option value="neuf">Neuf</option>
+          <option value="occasion">Occasion</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Pays d'immatriculation</label>
+        <select id="v-country">
+          <option value="BE">🇧🇪 Belgique (BE)</option>
+          <option value="FR">🇫🇷 France (FR)</option>
+          <option value="LU">🇱🇺 Luxembourg (LU)</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Date de disponibilité</label>
+        <input id="v-availability" type="date">
+      </div>
+    </div>
+    <div class="fg">
+      <label>ID stock (optionnel — généré si vide)</label>
+      <input id="v-id" placeholder="stock-be-001">
+    </div>
+    <div class="fg">
+      <label>URL image (optionnel)</label>
+      <input id="v-image" placeholder="https://…">
+    </div>
+    <div class="fg">
+      <label>Offres disponibles</label>
+      <p style="margin:.35rem 0 .75rem;color:var(--muted);font-size:.875rem">
+        Ajoutez directement toutes les combinaisons durée / km / prix. Sur un site étranger, les durées au-delà de 6 mois seront automatiquement masquées.
+      </p>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem">
+        <strong>Grille d'offres</strong>
+        <button type="button" class="btn btn-outline btn-sm" onclick="addOfferRow()">+ Ajouter une ligne</button>
+      </div>
+      <div id="offer-rows"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-vehicle')">Annuler</button>
+      <button class="btn btn-primary" onclick="saveVehicle()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const FLAGS = { BE: '🇧🇪', FR: '🇫🇷', LU: '🇱🇺' };
+let vehicles = [];
+let selectedId = null;
+let editingId = null;
+let variantSourceId = null;
+
+async function loadVehicles() {
+  const res = await fetch('/api/admin/vehicles');
+  vehicles = await res.json();
+  renderList();
+  if (selectedId && vehicles.some(v => v.id === selectedId)) {
+    renderDetail();
+  }
+}
+
+function renderList() {
+  const el = document.getElementById('vlist');
+  if (!vehicles.length) {
+    el.innerHTML = '<p style="padding:.75rem;font-size:.825rem;color:var(--muted)">Aucun véhicule — ajoutez-en un.</p>';
+    return;
+  }
+
+  el.innerHTML = vehicles.map(v => `
+    <div class="vitem ${v.id === selectedId ? 'active' : ''}" onclick="selectVehicle('${v.id}')">
+      <div class="vitem-name">${v.name || v.id}</div>
+      <div class="vitem-meta">
+        Ref. ${v.catalog_id || v.id} ·
+        ${FLAGS[v.registration_country] || ''} ${v.registration_country} ·
+        ${v.type === 'neuf' ? 'Neuf' : 'Occasion'} ·
+        Dispo ${formatAvailability(v.availability_date)} ·
+        ${(v.offers || []).length} offre${(v.offers || []).length !== 1 ? 's' : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function selectVehicle(id) {
+  selectedId = id;
+  renderList();
+  renderDetail();
+}
+
+function renderDetail() {
+  const v = vehicles.find(x => x.id === selectedId);
+  if (!v) return;
+
+  const offers = v.offers || [];
+
+  document.getElementById('admin-main').innerHTML = `
+    <div class="admin-vehicle-hd">
+      <div>
+        <h2>${v.name || v.id}</h2>
+        <p class="meta">
+          Ref. catalogue ${v.catalog_id || v.id} ·
+          ${FLAGS[v.registration_country] || ''} ${v.registration_country} ·
+          ${v.type === 'neuf' ? 'Neuf' : 'Occasion'}
+          · Dispo ${formatAvailability(v.availability_date)}
+          ${v.power_cv ? '· ' + v.power_cv + ' cv' : ''}
+          ${v.category ? '· ' + v.category : ''}
+        </p>
+      </div>
+      <div class="hd-actions">
+        <button class="btn btn-outline btn-sm" onclick="openVariantModal('${v.id}')">+ Variante</button>
+        <button class="btn btn-outline btn-sm" onclick="openVehicleModal('${v.id}')">✏ Modifier</button>
+        <button class="del-btn" style="padding:.4rem .85rem" onclick="deleteVehicle('${v.id}')">🗑 Supprimer</button>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="offers-hd">
+      <h3>Offres (${offers.length})</h3>
+      <button class="btn btn-primary btn-sm" onclick="openVehicleModal('${v.id}')">Modifier la grille</button>
+    </div>
+
+    ${offers.length === 0
+      ? '<p class="no-offers">Aucune offre. Ajoutez directement plusieurs lignes durée / km / prix dans la fiche.</p>'
+      : `<table class="offers-table">
+          <thead>
+            <tr>
+              <th>Durée</th><th>Km / mois</th><th>Prix</th><th></th>
+            </tr>
+          </thead>
+          <tbody>
+            ${offers.map((o, i) => `
+              <tr>
+                <td>${o.duration_months} mois</td>
+                <td>${fmt(o.km_per_month)} km</td>
+                <td><strong>${fmt(o.price)} €</strong> / mois</td>
+                <td><button class="del-btn" onclick="deleteOfferRowAndSave('${v.id}', ${i})">✕</button></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>`
+    }
+  `;
+}
+
+function openVehicleModal(vid = null) {
+  editingId = vid;
+  variantSourceId = null;
+  document.getElementById('modal-v-title').textContent = vid ? 'Modifier le véhicule' : 'Ajouter un véhicule';
+
+  if (vid) {
+    const v = vehicles.find(x => x.id === vid);
+    document.getElementById('v-catalog-id').value = v.catalog_id || v.id || '';
+    document.getElementById('v-name').value = v.name || '';
+    document.getElementById('v-brand').value = v.brand || '';
+    document.getElementById('v-power').value = v.power_cv || '';
+    document.getElementById('v-category').value = v.category || '';
+    document.getElementById('v-type').value = v.type || 'neuf';
+    document.getElementById('v-country').value = v.registration_country || 'BE';
+    document.getElementById('v-availability').value = v.availability_date || todayIso();
+    document.getElementById('v-id').value = v.id || '';
+    document.getElementById('v-image').value = v.image_url || '';
+    setOfferRows(v.offers || []);
+  } else {
+    ['v-catalog-id', 'v-name', 'v-brand', 'v-power', 'v-category', 'v-id', 'v-image'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    document.getElementById('v-type').value = 'neuf';
+    document.getElementById('v-country').value = 'BE';
+    document.getElementById('v-availability').value = todayIso();
+    setOfferRows([{ duration_months: 6, km_per_month: 1000, price: '' }]);
+  }
+
+  document.getElementById('modal-vehicle').classList.remove('hidden');
+}
+
+function openVariantModal(sourceId) {
+  const source = vehicles.find(x => x.id === sourceId);
+  if (!source) return;
+
+  editingId = null;
+  variantSourceId = sourceId;
+  document.getElementById('modal-v-title').textContent = 'Ajouter une variante';
+  document.getElementById('v-catalog-id').value = source.catalog_id || source.id || '';
+  document.getElementById('v-name').value = source.name || '';
+  document.getElementById('v-brand').value = source.brand || '';
+  document.getElementById('v-power').value = source.power_cv || '';
+  document.getElementById('v-category').value = source.category || '';
+  document.getElementById('v-type').value = source.type || 'neuf';
+  document.getElementById('v-country').value = nextCountryFor(source.registration_country || 'BE');
+  document.getElementById('v-availability').value = source.availability_date || todayIso();
+  document.getElementById('v-id').value = '';
+  document.getElementById('v-image').value = source.image_url || '';
+  setOfferRows(source.offers || []);
+  document.getElementById('modal-vehicle').classList.remove('hidden');
+}
+
+async function saveVehicle() {
+  let offers;
+  try {
+    offers = collectOfferRows();
+  } catch (error) {
+    return;
+  }
+
+  const body = {
+    catalog_id: document.getElementById('v-catalog-id').value.trim() || undefined,
+    name: document.getElementById('v-name').value.trim(),
+    brand: document.getElementById('v-brand').value.trim(),
+    power_cv: document.getElementById('v-power').value || null,
+    category: document.getElementById('v-category').value.trim(),
+    type: document.getElementById('v-type').value,
+    registration_country: document.getElementById('v-country').value,
+    availability_date: document.getElementById('v-availability').value,
+    id: document.getElementById('v-id').value.trim() || undefined,
+    image_url: document.getElementById('v-image').value.trim(),
+    offers,
+  };
+
+  const url = editingId ? `/api/admin/vehicles/${editingId}` : '/api/admin/vehicles';
+  const method = editingId ? 'PUT' : 'POST';
+  const res = await fetch(url, {
+    method,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  if (res.ok) {
+    const saved = await res.json();
+    closeModal('modal-vehicle');
+    variantSourceId = null;
+    await loadVehicles();
+    selectVehicle(saved.id);
+  } else {
+    const err = await res.json();
+    alert('Erreur : ' + (err.error || 'Inconnue'));
+  }
+}
+
+function nextCountryFor(currentCountry) {
+  const countries = ['BE', 'FR', 'LU'];
+  const index = countries.indexOf(currentCountry);
+  return countries[(index + 1 + countries.length) % countries.length];
+}
+
+function todayIso() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function formatAvailability(value) {
+  return value || 'maintenant';
+}
+
+async function deleteVehicle(vid) {
+  if (!confirm('Supprimer ce véhicule et toutes ses offres ?')) return;
+  const res = await fetch(`/api/admin/vehicles/${vid}`, { method: 'DELETE' });
+  if (res.ok) {
+    selectedId = null;
+    await loadVehicles();
+    document.getElementById('admin-main').innerHTML = `
+      <div class="admin-empty">
+        <span style="font-size:2.5rem">✅</span>
+        <h2>Véhicule supprimé</h2>
+      </div>`;
+  }
+}
+
+function renderOfferRow(offer = {}) {
+  return `
+    <div class="form-grid offer-row" style="margin-bottom:.75rem;padding:.75rem;border:1px solid var(--line);border-radius:16px">
+      <div class="fg">
+        <label>Durée (mois)</label>
+        <input data-field="duration_months" type="number" min="1" value="${offer.duration_months ?? ''}" placeholder="6">
+      </div>
+      <div class="fg">
+        <label>Km / mois</label>
+        <input data-field="km_per_month" type="number" min="1" value="${offer.km_per_month ?? ''}" placeholder="1000">
+      </div>
+      <div class="fg">
+        <label>Prix (€ / mois htva)</label>
+        <input data-field="price" type="number" min="0" step="0.01" value="${offer.price ?? ''}" placeholder="595">
+      </div>
+      <div class="fg" style="display:flex;align-items:flex-end">
+        <button type="button" class="btn btn-outline btn-sm" onclick="removeOfferRow(this)">Supprimer</button>
+      </div>
+    </div>
+  `;
+}
+
+function setOfferRows(offers) {
+  const rows = offers.length ? offers : [{ duration_months: '', km_per_month: '', price: '' }];
+  document.getElementById('offer-rows').innerHTML = rows.map(renderOfferRow).join('');
+}
+
+function addOfferRow() {
+  document.getElementById('offer-rows').insertAdjacentHTML('beforeend', renderOfferRow());
+}
+
+function removeOfferRow(button) {
+  const rows = document.querySelectorAll('#offer-rows .offer-row');
+  if (rows.length === 1) {
+    rows[0].querySelectorAll('input').forEach(input => { input.value = ''; });
+    return;
+  }
+  button.closest('.offer-row').remove();
+}
+
+function collectOfferRows() {
+  const rows = [...document.querySelectorAll('#offer-rows .offer-row')];
+  const offers = rows.map(row => ({
+    duration_months: parseInt(row.querySelector('[data-field="duration_months"]').value, 10),
+    km_per_month: parseInt(row.querySelector('[data-field="km_per_month"]').value, 10),
+    price: parseFloat(row.querySelector('[data-field="price"]').value),
+  })).filter(offer => offer.duration_months || offer.km_per_month || offer.price);
+
+  if (!offers.length) {
+    alert('Ajoute au moins une offre durée / km / prix.');
+    throw new Error('Aucune offre');
+  }
+
+  const invalid = offers.some(offer =>
+    !Number.isFinite(offer.duration_months) ||
+    !Number.isFinite(offer.km_per_month) ||
+    !Number.isFinite(offer.price)
+  );
+  if (invalid) {
+    alert('Chaque ligne d’offre doit contenir une durée, un kilométrage et un prix valides.');
+    throw new Error('Offres invalides');
+  }
+
+  return offers;
+}
+
+async function deleteOfferRowAndSave(vid, idx) {
+  if (!confirm('Supprimer cette offre ?')) return;
+  const v = vehicles.find(x => x.id === vid);
+  const offers = (v.offers || []).filter((_, i) => i !== idx);
+  const res = await fetch(`/api/admin/vehicles/${vid}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ offers }),
+  });
+  if (res.ok) {
+    await loadVehicles();
+    renderDetail();
+  }
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.add('hidden');
+  if (id === 'modal-vehicle') variantSourceId = null;
+}
+
+document.querySelectorAll('.overlay').forEach(overlay =>
+  overlay.addEventListener('click', event => {
+    if (event.target === overlay) overlay.classList.add('hidden');
+  })
+);
+
+document.addEventListener('DOMContentLoaded', loadVehicles);
+</script>
+{% endblock %}

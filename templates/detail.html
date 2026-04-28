@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% block title %}TURISMO — Véhicule{% endblock %}
+
+{% block body %}
+
+<!-- Top reservation bar -->
+<div class="topbar">
+  <div class="topbar-summary">
+    Votre réservation :
+    <strong id="sum-dur">—</strong> mois ·
+    <strong id="sum-km">—</strong> km/mois ·
+    <strong id="sum-type">—</strong>
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-price">
+      <div class="amount"><span id="top-price">—</span> €</div>
+      <div class="sub">par mois htva · <span class="tc">Tout Compris</span></div>
+    </div>
+    <button class="btn btn-primary" onclick="reserve()">Réserver</button>
+  </div>
+</div>
+
+<!-- Main layout -->
+<div class="detail-layout">
+
+  <!-- Left: images + specs -->
+  <div>
+    <div class="img-grid">
+      <div class="img-main">
+        <div class="img-block lg">
+          <div class="big-letter" id="brand-letter">?</div>
+        </div>
+      </div>
+      <div><div class="img-block sm"></div></div>
+      <div><div class="img-block sm"></div></div>
+    </div>
+
+    <div class="vehicle-info">
+      <h1 id="v-name">Chargement…</h1>
+      <p class="subtitle" id="v-subtitle"></p>
+      <div class="specs-grid" id="specs-grid"></div>
+    </div>
+  </div>
+
+  <!-- Right: reservation panel -->
+  <div>
+    <div class="res-panel">
+      <h3>Détail de la réservation</h3>
+
+      <p class="section-lbl">Durée</p>
+      <div class="opt-group" id="dur-btns"></div>
+
+      <p class="section-lbl">
+        Forfait kilométrique
+        <span>(par mois htva)</span>
+      </p>
+      <div class="opt-group" id="km-btns"></div>
+
+      <div class="price-box" id="price-box">
+        <div class="price-hint">Sélectionnez une durée et un forfait</div>
+      </div>
+
+      <button class="reserve-btn" onclick="reserve()">Réserver</button>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const VID = "{{ vehicle_id }}";
+let data   = null;
+let selDur = null;
+let selKm  = null;
+
+async function load() {
+  const site = getSite();
+  const today = getSimulatedToday();
+  const res  = await fetch(`/api/vehicle/${VID}?site=${site}&today=${today}`);
+  if (!res.ok) {
+    document.getElementById('v-name').textContent = 'Véhicule introuvable';
+    return;
+  }
+  data = await res.json();
+
+  document.title = `TURISMO — ${data.name}`;
+  document.getElementById('v-name').textContent    = data.name;
+  document.getElementById('brand-letter').textContent = (data.brand || data.name)[0];
+  document.getElementById('v-subtitle').textContent   =
+    `${data.brand} · ${data.variant_count > 1 ? 'Stocks multiples' : (data.type === 'neuf' ? 'Neuf' : 'Occasion')} · Immatriculé ${data.registration_countries.join(' / ')}`;
+
+  document.getElementById('specs-grid').innerHTML = [
+    ['Marque',         data.brand],
+    ['Catégorie',      data.category],
+    ['Puissance',      data.power_cv ? `${data.power_cv} cv` : null],
+    ['Type',           data.variant_count > 1 ? 'Mix neuf / occasion possible selon l’offre' : (data.type === 'neuf' ? 'Neuf' : 'Occasion')],
+    ['Immatriculation',data.registration_countries.join(' / ')],
+    ['Disponibilité',  data.availability_dates.map(formatAvailability).join(' / ')],
+    ['Stocks agrégés', data.variant_count],
+    ['Offres dispo',   `${data.offers.length} combinaison${data.offers.length > 1 ? 's' : ''}`],
+  ].filter(([,v]) => v).map(([l, v]) => `
+    <div class="spec">
+      <div class="spec-label">${l}</div>
+      <div class="spec-value">${v}</div>
+    </div>
+  `).join('');
+
+  // Auto-select first duration
+  const durations = [...new Set(data.offers.map(o => o.duration_months))].sort((a,b) => a-b);
+  selDur = durations[0] ?? null;
+  render();
+}
+
+function render() {
+  renderDurations();
+  renderKms();
+  renderPrice();
+}
+
+function renderDurations() {
+  const durations = [...new Set(data.offers.map(o => o.duration_months))].sort((a,b) => a-b);
+  document.getElementById('dur-btns').innerHTML = durations.map(d => `
+    <button class="opt ${d === selDur ? 'active' : ''}" onclick="pickDur(${d})">${d} mois</button>
+  `).join('');
+}
+
+function renderKms() {
+  if (!selDur) { document.getElementById('km-btns').innerHTML = ''; return; }
+  const kms = [...new Set(
+    data.offers.filter(o => o.duration_months === selDur).map(o => o.km_per_month)
+  )].sort((a,b) => a-b);
+  if (!selKm || !kms.includes(selKm)) selKm = kms[0] ?? null;
+  document.getElementById('km-btns').innerHTML = kms.map(k => `
+    <button class="opt ${k === selKm ? 'active' : ''}" onclick="pickKm(${k})">${fmt(k)} km</button>
+  `).join('');
+}
+
+function renderPrice() {
+  const offer = data.offers.find(o => o.duration_months === selDur && o.km_per_month === selKm);
+
+  // Update top bar
+  document.getElementById('sum-dur').textContent  = selDur  ?? '—';
+  document.getElementById('sum-km').textContent   = selKm   ? fmt(selKm) : '—';
+  document.getElementById('sum-type').textContent = offer   ? (offer.vehicle_type === 'neuf' ? 'Neuf' : 'Occasion') : '—';
+  document.getElementById('top-price').textContent = offer  ? fmt(offer.price) : '—';
+
+  if (!offer) {
+    document.getElementById('price-box').innerHTML =
+      '<div class="price-hint">Sélectionnez une durée et un forfait</div>';
+    return;
+  }
+
+  const pillClass = offer.vehicle_type === 'neuf' ? 'pill-neuf' : 'pill-occasion';
+  const pillLabel = offer.vehicle_type === 'neuf' ? 'Neuf' : 'Occasion';
+  document.getElementById('price-box').innerHTML = `
+    <div class="big">${fmt(offer.price)} €</div>
+    <div class="lbl">par mois htva · ${selDur} mois · ${fmt(selKm)} km</div>
+    <div class="detail">Immatriculation <strong>${offer.registration_country}</strong></div>
+    <span class="pill ${pillClass}">${pillLabel}</span>
+  `;
+}
+
+function pickDur(d) { selDur = d; selKm = null; render(); }
+function pickKm(k)  { selKm  = k; renderKms(); renderPrice(); }
+
+function reserve() {
+  if (selDur && selKm && data)
+    alert(`✅ Réservation enregistrée !\n\n${data.name}\n${selDur} mois · ${fmt(selKm)} km/mois`);
+}
+
+function localTodayIso() {
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+  return now.toISOString().slice(0, 10);
+}
+
+function getSimulatedToday() {
+  return new URLSearchParams(location.search).get('today')
+      || localStorage.getItem('simulatedToday')
+      || localTodayIso();
+}
+
+function formatAvailability(value) {
+  return value === 'disponible' ? 'maintenant' : value;
+}
+
+document.addEventListener('DOMContentLoaded', load);
+</script>
+{% endblock %}

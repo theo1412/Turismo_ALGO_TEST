@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block title %}TURISMO — Catalogue{% endblock %}
+
+{% block body %}
+
+<div class="hero">
+  <div class="hero-text">
+    <h1>Votre Voiture,<br><span class="hero-accent">en quelques clics</span></h1>
+    <p>100 % digital, simple et transparent. Livraison à domicile,<br>
+       tout compris, de 6 à 18 mois, avec ou sans option d'achat.</p>
+    <div class="hero-badges">
+      <span class="hero-badge" id="hero-site">🇧🇪 Site Belgique</span>
+      <span class="hero-badge">Livraison gratuite</span>
+      <span class="hero-badge">Tout compris</span>
+    </div>
+  </div>
+  <div class="hero-flag" id="hero-flag">🇧🇪</div>
+</div>
+
+<div class="catalog-toolbar">
+  <div>
+    <h2 id="catalog-label">Véhicules disponibles</h2>
+    <span class="catalog-count" id="catalog-count"></span>
+  </div>
+  <label class="date-control">
+    Date simulée
+    <input id="today-picker" type="date" onchange="setSimulatedToday(this.value)">
+  </label>
+</div>
+
+<div class="vehicle-grid" id="vehicle-grid">
+  <div class="empty-state"><p>Chargement…</p></div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+const FLAGS   = { BE: '🇧🇪', FR: '🇫🇷', LU: '🇱🇺' };
+const COUNTRY = { BE: 'Belgique', FR: 'France', LU: 'Luxembourg' };
+
+async function loadCatalog() {
+  const site = getSite();
+  const today = getSimulatedToday();
+
+  document.getElementById('today-picker').value = today;
+
+  document.getElementById('hero-site').textContent  = `${FLAGS[site]} Site ${COUNTRY[site]}`;
+  document.getElementById('hero-flag').textContent  = FLAGS[site];
+  document.getElementById('catalog-label').textContent = `Véhicules disponibles — ${COUNTRY[site]}`;
+
+  const res      = await fetch(`/api/catalog?site=${site}&today=${today}`);
+  const vehicles = await res.json();
+  const grid     = document.getElementById('vehicle-grid');
+
+  document.getElementById('catalog-count').textContent =
+    vehicles.length ? `${vehicles.length} véhicule${vehicles.length > 1 ? 's' : ''}` : '';
+
+  if (!vehicles.length) {
+    grid.innerHTML = `<div class="empty-state">
+      <h2>Aucun véhicule disponible</h2>
+      <p>Aucune offre compatible avec les règles d'affichage pour le site ${COUNTRY[site]} dans les 3 prochains mois.</p>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = vehicles.map(v => `
+    <a href="/vehicle/${v.id}?site=${site}&today=${today}" class="vehicle-card">
+      <div class="card-image">
+        ${v.image_url
+          ? `<img src="${v.image_url}" alt="${v.name}">`
+          : `<div class="brand-letter">${(v.brand || 'V')[0]}</div>`}
+        <span class="badge badge-type badge-${v.type}">
+          ${v.type === 'neuf' ? 'Neuf' : 'Occasion'}
+        </span>
+        <span class="badge badge-country">${v.registration_countries.join(' / ')}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-tags">
+          ${v.power_cv ? `<span class="tag">${v.power_cv} cv</span>` : ''}
+          ${v.category  ? `<span class="tag">${v.category}</span>`   : ''}
+          <span class="tag">${v.nb_durations} durée${v.nb_durations > 1 ? 's' : ''}</span>
+          ${v.variant_count > 1 ? `<span class="tag">${v.variant_count} stocks</span>` : ''}
+          <span class="tag">Dispo ${formatAvailability(v.availability_dates[0])}</span>
+        </div>
+        <h3 class="card-title">${v.name}</h3>
+        <p class="card-price">
+          à partir de <strong>${fmt(v.min_price)} €</strong> par mois htva —
+          <span class="tout-compris">Tout compris</span>
+        </p>
+      </div>
+    </a>
+  `).join('');
+}
+
+function localTodayIso() {
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+  return now.toISOString().slice(0, 10);
+}
+
+function getSimulatedToday() {
+  return new URLSearchParams(location.search).get('today')
+      || localStorage.getItem('simulatedToday')
+      || localTodayIso();
+}
+
+function setSimulatedToday(value) {
+  localStorage.setItem('simulatedToday', value);
+  const url = new URL(location.href);
+  url.searchParams.set('today', value);
+  location.href = url.toString();
+}
+
+function formatAvailability(value) {
+  return value === 'disponible' ? 'maintenant' : value;
+}
+
+document.addEventListener('DOMContentLoaded', loadCatalog);
+</script>
+{% endblock %}

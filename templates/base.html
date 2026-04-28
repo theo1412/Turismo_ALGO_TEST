@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}TURISMO{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header class="header">
+  <a href="/" class="logo">TURISMO</a>
+  <div class="header-right">
+    <div class="country-tabs" id="countryTabs">
+      <button class="country-tab" data-site="BE">🇧🇪 BE</button>
+      <button class="country-tab" data-site="FR">🇫🇷 FR</button>
+      <button class="country-tab" data-site="LU">🇱🇺 LU</button>
+    </div>
+    <a href="/admin" class="btn btn-outline btn-sm">⚙ Admin</a>
+  </div>
+</header>
+
+{% block body %}{% endblock %}
+
+<script>
+  function getSite() {
+    return new URLSearchParams(location.search).get('site')
+        || localStorage.getItem('site')
+        || 'BE';
+  }
+  function setSite(site) {
+    localStorage.setItem('site', site);
+    const url = new URL(location.href);
+    url.searchParams.set('site', site);
+    location.href = url.toString();
+  }
+  function fmt(n) {
+    return Number(n).toLocaleString('fr-FR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const site = getSite();
+    // Hide country tabs on admin page
+    if (location.pathname === '/admin') {
+      document.getElementById('countryTabs').style.display = 'none';
+    } else {
+      document.querySelectorAll('.country-tab').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.site === site);
+        btn.addEventListener('click', () => setSite(btn.dataset.site));
+      });
+    }
+  });
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

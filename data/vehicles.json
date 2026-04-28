@@ -1,0 +1,350 @@
+{
+  "vehicles": [
+    {
+      "id": "porsche-911-carrera-s",
+      "name": "Porsche 911 Carrera S Cabrio",
+      "brand": "Porsche",
+      "power_cv": "450",
+      "category": "Coupé Sport",
+      "type": "occasion",
+      "registration_country": "BE",
+      "availability_date": "2026-04-27",
+      "image_url": "",
+      "offers": [
+        {
+          "duration_months": 6,
+          "km_per_month": 500,
+          "price": 595.0
+        },
+        {
+          "duration_months": 6,
+          "km_per_month": 1000,
+          "price": 650.0
+        },
+        {
+          "duration_months": 12,
+          "km_per_month": 500,
+          "price": 560.0
+        },
+        {
+          "duration_months": 12,
+          "km_per_month": 1000,
+          "price": 610.0
+        },
+        {
+          "duration_months": 18,
+          "km_per_month": 500,
+          "price": 530.0
+        },
+        {
+          "duration_months": 18,
+          "km_per_month": 1000,
+          "price": 585.0
+        }
+      ],
+      "catalog_id": "porsche-911-carrera-s"
+    },
+    {
+      "id": "bmw-430i-cabriolet",
+      "name": "BMW 430i Cabriolet",
+      "brand": "BMW",
+      "power_cv": 245,
+      "category": "Coupé Sport",
+      "type": "occasion",
+      "registration_country": "LU",
+      "availability_date": "2026-04-27",
+      "image_url": "",
+      "offers": [
+        {
+          "duration_months": 6,
+          "km_per_month": 500,
+          "price": 575
+        },
+        {
+          "duration_months": 6,
+          "km_per_month": 1000,
+          "price": 625
+        },
+        {
+          "duration_months": 12,
+          "km_per_month": 500,
+          "price": 540
+        },
+        {
+          "duration_months": 12,
+          "km_per_month": 1000,
+          "price": 590
+        },
+        {
+          "duration_months": 18,
+          "km_per_month": 500,
+          "price": 510
+        },
+        {
+          "duration_months": 18,
+          "km_per_month": 1000,
+          "price": 560
+        }
+      ]
+    },
+    {
+      "id": "mercedes-gle-coupe",
+      "name": "Mercedes GLE Coupé AMG",
+      "brand": "Mercedes",
+      "power_cv": 367,
+      "category": "SUV",
+      "type": "neuf",
+      "registration_country": "FR",
+      "availability_date": "2026-04-27",
+      "image_url": "",
+      "offers": [
+        {
+          "duration_months": 6,
+          "km_per_month": 1000,
+          "price": 890
+        },
+        {
+          "duration_months": 6,
+          "km_per_month": 1500,
+          "price": 940
+        },
+        {
+          "duration_months": 12,
+          "km_per_month": 1000,
+          "price": 840
+        },
+        {
+          "duration_months": 12,
+          "km_per_month": 1500,
+          "price": 890
+        },
+        {
+          "duration_months": 18,
+          "km_per_month": 1000,
+          "price": 800
+        },
+        {
+          "duration_months": 18,
+          "km_per_month": 1500,
+          "price": 850
+        }
+      ]
+    },
+    {
+      "id": "audi-rs6-avant",
+      "name": "Audi RS6 Avant",
+      "brand": "Audi",
+      "power_cv": 600,
+      "category": "Break",
+      "type": "neuf",
+      "registration_country": "BE",
+      "availability_date": "2026-04-27",
+      "image_url": "",
+      "offers": [
+        {
+          "duration_months": 6,
+          "km_per_month": 1000,
+          "price": 1200
+        },
+        {
+          "duration_months": 6,
+          "km_per_month": 1500,
+          "price": 1280
+        },
+        {
+          "duration_months": 12,
+          "km_per_month": 1000,
+          "price": 1100
+        },
+        {
+          "duration_months": 12,
+          "km_per_month": 1500,
+          "price": 1180
+        },
+        {
+          "duration_months": 18,
+          "km_per_month": 1000,
+          "price": 1050
+        },
+        {
+          "duration_months": 18,
+          "km_per_month": 1500,
+          "price": 1130
+        }
+      ]
+    },
+    {
+      "id": "tesla-model-3",
+      "name": "Tesla Model 3 Long Range",
+      "brand": "Tesla",
+      "power_cv": 283,
+      "category": "Électrique",
+      "type": "neuf",
+      "registration_country": "LU",
+      "availability_date": "2026-04-27",
+      "image_url": "",
+      "offers": [
+        {
+          "duration_months": 6,
+          "km_per_month": 1000,
+          "price": 620
+        },
+        {
+          "duration_months": 6,
+          "km_per_month": 1500,
+          "price": 660
+        },
+        {
+          "duration_months": 12,
+          "km_per_month": 1000,
+          "price": 580
+        },
+        {
+          "duration_months": 12,
+          "km_per_month": 1500,
+          "price": 620
+        },
+        {
+          "duration_months": 18,
+          "km_per_month": 1000,
+          "price": 550
+        },
+        {
+          "duration_months": 18,
+          "km_per_month": 1500,
+          "price": 590
+        }
+      ]
+    },
+    {
+      "id": "porsche-macan-4",
+      "name": "Porsche Macan 4",
+      "brand": "Porsche",
+      "power_cv": 408,
+      "category": "Électrique",
+      "type": "neuf",
+      "registration_country": "BE",
+      "availability_date": "2026-04-27",
+      "image_url": "",
+      "offers": [
+        {
+          "duration_months": 6,
+          "km_per_month": 500,
+          "price": 980
+        },
+        {
+          "duration_months": 6,
+          "km_per_month": 1000,
+          "price": 1040
+        },
+        {
+          "duration_months": 12,
+          "km_per_month": 500,
+          "price": 920
+        },
+        {
+          "duration_months": 12,
+          "km_per_month": 1000,
+          "price": 980
+        },
+        {
+          "duration_months": 18,
+          "km_per_month": 500,
+          "price": 880
+        },
+        {
+          "duration_months": 18,
+          "km_per_month": 1000,
+          "price": 940
+        }
+      ]
+    },
+    {
+      "id": "alfa-romeo-giulia",
+      "name": "Alfa Romeo Giulia Veloce",
+      "brand": "Alfa Romeo",
+      "power_cv": 280,
+      "category": "Berline",
+      "type": "occasion",
+      "registration_country": "FR",
+      "availability_date": "2026-04-27",
+      "image_url": "",
+      "offers": [
+        {
+          "duration_months": 6,
+          "km_per_month": 500,
+          "price": 510
+        },
+        {
+          "duration_months": 6,
+          "km_per_month": 1000,
+          "price": 560
+        },
+        {
+          "duration_months": 12,
+          "km_per_month": 500,
+          "price": 480
+        },
+        {
+          "duration_months": 12,
+          "km_per_month": 1000,
+          "price": 530
+        },
+        {
+          "duration_months": 18,
+          "km_per_month": 500,
+          "price": 455
+        },
+        {
+          "duration_months": 18,
+          "km_per_month": 1000,
+          "price": 505
+        }
+      ]
+    },
+    {
+      "id": "b83ba6d1",
+      "catalog_id": "porsche-911-carrera-s",
+      "name": "Porsche 911 Carrera S Cabrio",
+      "brand": "Porsche",
+      "power_cv": "450",
+      "category": "Coupé Sport",
+      "type": "neuf",
+      "registration_country": "BE",
+      "availability_date": "2027-01-15",
+      "image_url": "",
+      "offers": [
+        {
+          "duration_months": 6,
+          "km_per_month": 500,
+          "price": 590.0
+        },
+        {
+          "duration_months": 6,
+          "km_per_month": 1000,
+          "price": 650.0
+        },
+        {
+          "duration_months": 12,
+          "km_per_month": 500,
+          "price": 560.0
+        },
+        {
+          "duration_months": 12,
+          "km_per_month": 1000,
+          "price": 610.0
+        },
+        {
+          "duration_months": 18,
+          "km_per_month": 500,
+          "price": 530.0
+        },
+        {
+          "duration_months": 18,
+          "km_per_month": 1000,
+          "price": 580.0
+        }
+      ]
+    }
+  ]
+}
