@@ -33,6 +33,140 @@ Fonctionnalité: Affichage des offres véhicules par site pays
       | 12         | 1000    | 470  | LU              | neuf     |
       | 18         | 1000    | 420  | LU              | neuf     |
 
+  # ─────────────────────────────────────────────────────────────────────────────
+  # RÈGLE : priorité avancée par disponibilité
+  # ─────────────────────────────────────────────────────────────────────────────
+
+  Scénario: Une disponibilité immédiate gagne toujours contre une disponibilité future même moins chère
+    Etant donné que la base de données contient les véhicules suivants :
+      | id      | catalogue | type     | immatriculation | disponible_le |
+      | NOW-BE  | PRIO-1    | occasion | BE              | 2026-04-01    |
+      | SOON-BE | PRIO-1    | neuf     | BE              | 2026-04-20    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | NOW-BE   | 6          | 1000    | 700  |
+      | SOON-BE  | 6          | 1000    | 500  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-04-10
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type     |
+      | 6          | 1000    | 700  | BE              | occasion |
+
+  Scénario: Entre plusieurs véhicules immédiatement disponibles, le prix est prioritaire
+    Etant donné que la base de données contient les véhicules suivants :
+      | id       | catalogue | type     | immatriculation | disponible_le |
+      | PRICE-BE | PRIO-2    | occasion | BE              | 2026-04-01    |
+      | PRICE-FR | PRIO-2    | neuf     | FR              | 2026-04-05    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | PRICE-BE | 6          | 1000    | 600  |
+      | PRICE-FR | 6          | 1000    | 550  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-04-10
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type |
+      | 6          | 1000    | 550  | FR              | neuf |
+
+  Scénario: En disponibilité immédiate à prix égal, la plaque du pays consulté gagne
+    Etant donné que la base de données contient les véhicules suivants :
+      | id       | catalogue | type     | immatriculation | disponible_le |
+      | LOCAL-FR | PRIO-3    | occasion | FR              | 2026-04-01    |
+      | LOCAL-BE | PRIO-3    | neuf     | BE              | 2026-04-08    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | LOCAL-FR | 6          | 1000    | 500  |
+      | LOCAL-BE | 6          | 1000    | 500  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-04-10
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type |
+      | 6          | 1000    | 500  | BE              | neuf |
+
+  Scénario: En disponibilité immédiate à prix égal sans plaque locale, le plus ancien disponible gagne
+    Etant donné que la base de données contient les véhicules suivants :
+      | id      | catalogue | type     | immatriculation | disponible_le |
+      | OLD-FR  | PRIO-4    | occasion | FR              | 2026-03-01    |
+      | NEW-LU  | PRIO-4    | neuf     | LU              | 2026-04-01    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | OLD-FR   | 6          | 1000    | 500  |
+      | NEW-LU   | 6          | 1000    | 500  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-04-10
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type     |
+      | 6          | 1000    | 500  | FR              | occasion |
+
+  Scénario: Sans disponibilité immédiate, deux véhicules sous un mois sont départagés par le prix
+    Etant donné que la base de données contient les véhicules suivants :
+      | id       | catalogue | type     | immatriculation | disponible_le |
+      | SOON-BE  | PRIO-5    | occasion | BE              | 2026-05-20    |
+      | SOON-FR  | PRIO-5    | neuf     | FR              | 2026-05-25    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | SOON-BE  | 6          | 1000    | 700  |
+      | SOON-FR  | 6          | 1000    | 500  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-05-01
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type |
+      | 6          | 1000    | 500  | FR              | neuf |
+
+  Scénario: Sans disponibilité immédiate, un seul véhicule sous un mois gagne même si un plus tardif est moins cher
+    Etant donné que la base de données contient les véhicules suivants :
+      | id        | catalogue | type     | immatriculation | disponible_le |
+      | FIRST-BE  | PRIO-6    | occasion | BE              | 2026-05-10    |
+      | LATER-BE  | PRIO-6    | neuf     | BE              | 2026-06-15    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | FIRST-BE | 6          | 1000    | 700  |
+      | LATER-BE | 6          | 1000    | 400  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-05-01
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type     |
+      | 6          | 1000    | 700  | BE              | occasion |
+
+  Scénario: Sans disponibilité immédiate ni véhicule sous un mois, le premier disponible gagne
+    Etant donné que la base de données contient les véhicules suivants :
+      | id       | catalogue | type     | immatriculation | disponible_le |
+      | JUNE-BE  | PRIO-7    | occasion | BE              | 2026-06-10    |
+      | JULY-BE  | PRIO-7    | neuf     | BE              | 2026-07-01    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | JUNE-BE  | 6          | 1000    | 700  |
+      | JULY-BE  | 6          | 1000    | 400  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-05-01
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type     |
+      | 6          | 1000    | 700  | BE              | occasion |
+
+  Scénario: Une nouvelle combinaison mois/km apparaît quand un stock local entre dans les 3 mois
+    Etant donné que la base de données contient les véhicules suivants :
+      | id       | catalogue | type     | immatriculation | disponible_le |
+      | CAP-FR   | PRIO-8    | occasion | FR              | 2026-04-01    |
+      | CAP-BE   | PRIO-8    | neuf     | BE              | 2026-07-20    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | CAP-FR   | 6          | 1000    | 550  |
+      | CAP-FR   | 12         | 1000    | 450  |
+      | CAP-BE   | 12         | 1000    | 650  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-04-27
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type |
+      | 6          | 1000    | 550  | FR              | occasion |
+      | 12         | 1000    | 650  | BE              | neuf |
+
   Scénario: Client français — 6 mois uniquement au prix belge (véhicules étrangers limités à 6 mois)
     Etant donné que je suis sur le site FR
     Quand je consulte le catalogue de véhicules
@@ -174,7 +308,7 @@ Fonctionnalité: Affichage des offres véhicules par site pays
     Quand je consulte le catalogue de véhicules
     Alors je dois voir les offres suivantes :
       | duree_mois | km_mois | prix | immatriculation | type     |
-      | 6          | 1000    | 480  | BE              | occasion |
+      | 6          | 1000    | 480  | LU              | neuf     |
       | 12         | 1000    | 470  | LU              | neuf     |
       | 18         | 1000    | 420  | LU              | neuf     |
 

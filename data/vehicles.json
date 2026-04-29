@@ -1,137 +1,98 @@
 {
   "vehicles": [
     {
-      "id": "porsche-911-carrera-s",
+      "id": "porsche-911-be-used",
+      "catalog_id": "porsche-911-carrera-s",
       "name": "Porsche 911 Carrera S Cabrio",
       "brand": "Porsche",
-      "power_cv": "450",
+      "power_cv": 450,
       "category": "Coupé Sport",
       "type": "occasion",
       "registration_country": "BE",
       "availability_date": "2026-04-27",
       "image_url": "",
       "offers": [
-        {
-          "duration_months": 6,
-          "km_per_month": 500,
-          "price": 595.0
-        },
-        {
-          "duration_months": 6,
-          "km_per_month": 1000,
-          "price": 650.0
-        },
-        {
-          "duration_months": 12,
-          "km_per_month": 500,
-          "price": 560.0
-        },
-        {
-          "duration_months": 12,
-          "km_per_month": 1000,
-          "price": 610.0
-        },
-        {
-          "duration_months": 18,
-          "km_per_month": 500,
-          "price": 530.0
-        },
-        {
-          "duration_months": 18,
-          "km_per_month": 1000,
-          "price": 585.0
-        }
-      ],
-      "catalog_id": "porsche-911-carrera-s"
-    },
-    {
-      "id": "bmw-430i-cabriolet",
-      "name": "BMW 430i Cabriolet",
-      "brand": "BMW",
-      "power_cv": 245,
-      "category": "Coupé Sport",
-      "type": "occasion",
-      "registration_country": "LU",
-      "availability_date": "2026-04-27",
-      "image_url": "",
-      "offers": [
-        {
-          "duration_months": 6,
-          "km_per_month": 500,
-          "price": 575
-        },
-        {
-          "duration_months": 6,
-          "km_per_month": 1000,
-          "price": 625
-        },
-        {
-          "duration_months": 12,
-          "km_per_month": 500,
-          "price": 540
-        },
-        {
-          "duration_months": 12,
-          "km_per_month": 1000,
-          "price": 590
-        },
-        {
-          "duration_months": 18,
-          "km_per_month": 500,
-          "price": 510
-        },
-        {
-          "duration_months": 18,
-          "km_per_month": 1000,
-          "price": 560
-        }
+        { "duration_months": 6, "km_per_month": 500, "price": 595 },
+        { "duration_months": 6, "km_per_month": 1000, "price": 650 },
+        { "duration_months": 12, "km_per_month": 500, "price": 560 },
+        { "duration_months": 12, "km_per_month": 1000, "price": 610 },
+        { "duration_months": 18, "km_per_month": 500, "price": 530 },
+        { "duration_months": 18, "km_per_month": 1000, "price": 575 }
       ]
     },
     {
-      "id": "mercedes-gle-coupe",
-      "name": "Mercedes GLE Coupé AMG",
-      "brand": "Mercedes",
-      "power_cv": 367,
-      "category": "SUV",
+      "id": "porsche-911-be-new",
+      "catalog_id": "porsche-911-carrera-s",
+      "name": "Porsche 911 Carrera S Cabrio",
+      "brand": "Porsche",
+      "power_cv": 450,
+      "category": "Coupé Sport",
       "type": "neuf",
+      "registration_country": "BE",
+      "availability_date": "2026-04-27",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 500, "price": 590 },
+        { "duration_months": 6, "km_per_month": 1000, "price": 650 },
+        { "duration_months": 12, "km_per_month": 500, "price": 565 },
+        { "duration_months": 12, "km_per_month": 1000, "price": 615 },
+        { "duration_months": 18, "km_per_month": 500, "price": 535 },
+        { "duration_months": 18, "km_per_month": 1000, "price": 580 }
+      ]
+    },
+    {
+      "id": "porsche-911-lu-new",
+      "catalog_id": "porsche-911-carrera-s",
+      "name": "Porsche 911 Carrera S Cabrio",
+      "brand": "Porsche",
+      "power_cv": 450,
+      "category": "Coupé Sport",
+      "type": "neuf",
+      "registration_country": "LU",
+      "availability_date": "2026-05-15",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 630 },
+        { "duration_months": 12, "km_per_month": 1000, "price": 600 },
+        { "duration_months": 18, "km_per_month": 1000, "price": 570 }
+      ]
+    },
+    {
+      "id": "macan-fr-used",
+      "catalog_id": "porsche-macan-4",
+      "name": "Porsche Macan 4",
+      "brand": "Porsche",
+      "power_cv": 408,
+      "category": "Électrique",
+      "type": "occasion",
       "registration_country": "FR",
       "availability_date": "2026-04-27",
       "image_url": "",
       "offers": [
-        {
-          "duration_months": 6,
-          "km_per_month": 1000,
-          "price": 890
-        },
-        {
-          "duration_months": 6,
-          "km_per_month": 1500,
-          "price": 940
-        },
-        {
-          "duration_months": 12,
-          "km_per_month": 1000,
-          "price": 840
-        },
-        {
-          "duration_months": 12,
-          "km_per_month": 1500,
-          "price": 890
-        },
-        {
-          "duration_months": 18,
-          "km_per_month": 1000,
-          "price": 800
-        },
-        {
-          "duration_months": 18,
-          "km_per_month": 1500,
-          "price": 850
-        }
+        { "duration_months": 6, "km_per_month": 1000, "price": 900 },
+        { "duration_months": 12, "km_per_month": 1000, "price": 820 }
       ]
     },
     {
-      "id": "audi-rs6-avant",
+      "id": "macan-be-new",
+      "catalog_id": "porsche-macan-4",
+      "name": "Porsche Macan 4",
+      "brand": "Porsche",
+      "power_cv": 408,
+      "category": "Électrique",
+      "type": "neuf",
+      "registration_country": "BE",
+      "availability_date": "2026-07-20",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 12, "km_per_month": 1000, "price": 980 },
+        { "duration_months": 18, "km_per_month": 1000, "price": 940 },
+        { "duration_months": 18, "km_per_month": 1500, "price": 1010 }
+      ]
+    },
+    {
+      "id": "audi-rs6-be-new",
+      "catalog_id": "audi-rs6-avant",
       "name": "Audi RS6 Avant",
       "brand": "Audi",
       "power_cv": 600,
@@ -141,126 +102,126 @@
       "availability_date": "2026-04-27",
       "image_url": "",
       "offers": [
-        {
-          "duration_months": 6,
-          "km_per_month": 1000,
-          "price": 1200
-        },
-        {
-          "duration_months": 6,
-          "km_per_month": 1500,
-          "price": 1280
-        },
-        {
-          "duration_months": 12,
-          "km_per_month": 1000,
-          "price": 1100
-        },
-        {
-          "duration_months": 12,
-          "km_per_month": 1500,
-          "price": 1180
-        },
-        {
-          "duration_months": 18,
-          "km_per_month": 1000,
-          "price": 1050
-        },
-        {
-          "duration_months": 18,
-          "km_per_month": 1500,
-          "price": 1130
-        }
+        { "duration_months": 6, "km_per_month": 1000, "price": 1200 },
+        { "duration_months": 12, "km_per_month": 1000, "price": 1100 },
+        { "duration_months": 18, "km_per_month": 1000, "price": 1050 }
       ]
     },
     {
-      "id": "tesla-model-3",
+      "id": "audi-rs6-fr-used",
+      "catalog_id": "audi-rs6-avant",
+      "name": "Audi RS6 Avant",
+      "brand": "Audi",
+      "power_cv": 600,
+      "category": "Break",
+      "type": "occasion",
+      "registration_country": "FR",
+      "availability_date": "2026-04-27",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 990 },
+        { "duration_months": 12, "km_per_month": 1000, "price": 900 }
+      ]
+    },
+    {
+      "id": "bmw-430i-be-used",
+      "catalog_id": "bmw-430i-cabriolet",
+      "name": "BMW 430i Cabriolet",
+      "brand": "BMW",
+      "power_cv": 245,
+      "category": "Coupé Sport",
+      "type": "occasion",
+      "registration_country": "BE",
+      "availability_date": "2026-05-20",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 700 },
+        { "duration_months": 12, "km_per_month": 1000, "price": 650 }
+      ]
+    },
+    {
+      "id": "bmw-430i-fr-new",
+      "catalog_id": "bmw-430i-cabriolet",
+      "name": "BMW 430i Cabriolet",
+      "brand": "BMW",
+      "power_cv": 245,
+      "category": "Coupé Sport",
+      "type": "neuf",
+      "registration_country": "FR",
+      "availability_date": "2026-05-25",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 600 },
+        { "duration_months": 12, "km_per_month": 1000, "price": 560 }
+      ]
+    },
+    {
+      "id": "tesla-model-3-lu-new",
+      "catalog_id": "tesla-model-3",
       "name": "Tesla Model 3 Long Range",
       "brand": "Tesla",
       "power_cv": 283,
       "category": "Électrique",
       "type": "neuf",
       "registration_country": "LU",
-      "availability_date": "2026-04-27",
+      "availability_date": "2026-05-10",
       "image_url": "",
       "offers": [
-        {
-          "duration_months": 6,
-          "km_per_month": 1000,
-          "price": 620
-        },
-        {
-          "duration_months": 6,
-          "km_per_month": 1500,
-          "price": 660
-        },
-        {
-          "duration_months": 12,
-          "km_per_month": 1000,
-          "price": 580
-        },
-        {
-          "duration_months": 12,
-          "km_per_month": 1500,
-          "price": 620
-        },
-        {
-          "duration_months": 18,
-          "km_per_month": 1000,
-          "price": 550
-        },
-        {
-          "duration_months": 18,
-          "km_per_month": 1500,
-          "price": 590
-        }
+        { "duration_months": 6, "km_per_month": 1000, "price": 720 },
+        { "duration_months": 12, "km_per_month": 1000, "price": 680 }
       ]
     },
     {
-      "id": "porsche-macan-4",
-      "name": "Porsche Macan 4",
-      "brand": "Porsche",
-      "power_cv": 408,
+      "id": "tesla-model-3-lu-used",
+      "catalog_id": "tesla-model-3",
+      "name": "Tesla Model 3 Long Range",
+      "brand": "Tesla",
+      "power_cv": 283,
       "category": "Électrique",
+      "type": "occasion",
+      "registration_country": "LU",
+      "availability_date": "2026-06-15",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 620 },
+        { "duration_months": 12, "km_per_month": 1000, "price": 590 }
+      ]
+    },
+    {
+      "id": "mercedes-gle-be-new",
+      "catalog_id": "mercedes-gle-coupe",
+      "name": "Mercedes GLE Coupé AMG",
+      "brand": "Mercedes",
+      "power_cv": 367,
+      "category": "SUV",
       "type": "neuf",
       "registration_country": "BE",
-      "availability_date": "2026-04-27",
+      "availability_date": "2026-06-10",
       "image_url": "",
       "offers": [
-        {
-          "duration_months": 6,
-          "km_per_month": 500,
-          "price": 980
-        },
-        {
-          "duration_months": 6,
-          "km_per_month": 1000,
-          "price": 1040
-        },
-        {
-          "duration_months": 12,
-          "km_per_month": 500,
-          "price": 920
-        },
-        {
-          "duration_months": 12,
-          "km_per_month": 1000,
-          "price": 980
-        },
-        {
-          "duration_months": 18,
-          "km_per_month": 500,
-          "price": 880
-        },
-        {
-          "duration_months": 18,
-          "km_per_month": 1000,
-          "price": 940
-        }
+        { "duration_months": 6, "km_per_month": 1000, "price": 920 },
+        { "duration_months": 12, "km_per_month": 1000, "price": 880 }
       ]
     },
     {
-      "id": "alfa-romeo-giulia",
+      "id": "mercedes-gle-be-used",
+      "catalog_id": "mercedes-gle-coupe",
+      "name": "Mercedes GLE Coupé AMG",
+      "brand": "Mercedes",
+      "power_cv": 367,
+      "category": "SUV",
+      "type": "occasion",
+      "registration_country": "BE",
+      "availability_date": "2026-07-01",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 800 },
+        { "duration_months": 12, "km_per_month": 1000, "price": 760 }
+      ]
+    },
+    {
+      "id": "alfa-giulia-fr-used",
+      "catalog_id": "alfa-romeo-giulia",
       "name": "Alfa Romeo Giulia Veloce",
       "brand": "Alfa Romeo",
       "power_cv": 280,
@@ -270,80 +231,70 @@
       "availability_date": "2026-04-27",
       "image_url": "",
       "offers": [
-        {
-          "duration_months": 6,
-          "km_per_month": 500,
-          "price": 510
-        },
-        {
-          "duration_months": 6,
-          "km_per_month": 1000,
-          "price": 560
-        },
-        {
-          "duration_months": 12,
-          "km_per_month": 500,
-          "price": 480
-        },
-        {
-          "duration_months": 12,
-          "km_per_month": 1000,
-          "price": 530
-        },
-        {
-          "duration_months": 18,
-          "km_per_month": 500,
-          "price": 455
-        },
-        {
-          "duration_months": 18,
-          "km_per_month": 1000,
-          "price": 505
-        }
+        { "duration_months": 6, "km_per_month": 1000, "price": 510 },
+        { "duration_months": 12, "km_per_month": 1000, "price": 480 }
       ]
     },
     {
-      "id": "b83ba6d1",
-      "catalog_id": "porsche-911-carrera-s",
-      "name": "Porsche 911 Carrera S Cabrio",
-      "brand": "Porsche",
-      "power_cv": "450",
-      "category": "Coupé Sport",
+      "id": "alfa-giulia-be-new",
+      "catalog_id": "alfa-romeo-giulia",
+      "name": "Alfa Romeo Giulia Veloce",
+      "brand": "Alfa Romeo",
+      "power_cv": 280,
+      "category": "Berline",
       "type": "neuf",
       "registration_country": "BE",
-      "availability_date": "2027-01-15",
+      "availability_date": "2026-04-27",
       "image_url": "",
       "offers": [
-        {
-          "duration_months": 6,
-          "km_per_month": 500,
-          "price": 590.0
-        },
-        {
-          "duration_months": 6,
-          "km_per_month": 1000,
-          "price": 650.0
-        },
-        {
-          "duration_months": 12,
-          "km_per_month": 500,
-          "price": 560.0
-        },
-        {
-          "duration_months": 12,
-          "km_per_month": 1000,
-          "price": 610.0
-        },
-        {
-          "duration_months": 18,
-          "km_per_month": 500,
-          "price": 530.0
-        },
-        {
-          "duration_months": 18,
-          "km_per_month": 1000,
-          "price": 580.0
-        }
+        { "duration_months": 6, "km_per_month": 1000, "price": 510 },
+        { "duration_months": 12, "km_per_month": 1000, "price": 500 }
+      ]
+    },
+    {
+      "id": "range-rover-fr-used",
+      "catalog_id": "range-rover-sport",
+      "name": "Range Rover Sport P460e",
+      "brand": "Land Rover",
+      "power_cv": 460,
+      "category": "SUV",
+      "type": "occasion",
+      "registration_country": "FR",
+      "availability_date": "2026-04-27",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 1500 }
+      ]
+    },
+    {
+      "id": "range-rover-lu-new",
+      "catalog_id": "range-rover-sport",
+      "name": "Range Rover Sport P460e",
+      "brand": "Land Rover",
+      "power_cv": 460,
+      "category": "SUV",
+      "type": "neuf",
+      "registration_country": "LU",
+      "availability_date": "2026-05-01",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 1500 }
+      ]
+    },
+    {
+      "id": "volvo-ex30-be-new",
+      "catalog_id": "volvo-ex30",
+      "name": "Volvo EX30 Twin Motor",
+      "brand": "Volvo",
+      "power_cv": 428,
+      "category": "Électrique",
+      "type": "neuf",
+      "registration_country": "BE",
+      "availability_date": "2026-09-15",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 12, "km_per_month": 1000, "price": 540 },
+        { "duration_months": 18, "km_per_month": 1000, "price": 510 }
       ]
     }
   ]

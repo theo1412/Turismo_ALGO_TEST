@@ -166,7 +166,7 @@ def build_catalog_entry(raw_group, site_country, current_date):
         "image_url": first.get("image_url", ""),
         "min_price": min(o.price for o in offers),
         "nb_durations": len({o.duration_months for o in offers}),
-        "variant_count": len(raw_group),
+        "variant_count": len(display_group),
     }
 
 
@@ -258,6 +258,8 @@ def api_vehicle(vid):
                 "price":                o.price,
                 "vehicle_type":         o.vehicle_type,
                 "registration_country": o.registration_country.value,
+                "availability_date":     o.availability_date.isoformat() if o.availability_date else None,
+                "vehicle_id":            o.vehicle_id,
             }
             for o in offers
         ],

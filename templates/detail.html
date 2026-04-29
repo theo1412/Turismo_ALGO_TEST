@@ -157,6 +157,7 @@ function renderPrice() {
     <div class="big">${fmt(offer.price)} €</div>
     <div class="lbl">par mois htva · ${selDur} mois · ${fmt(selKm)} km</div>
     <div class="detail">Immatriculation <strong>${offer.registration_country}</strong></div>
+    <div class="detail">Disponible <strong>${formatAvailability(offer.availability_date || 'disponible')}</strong></div>
     <span class="pill ${pillClass}">${pillLabel}</span>
   `;
 }
