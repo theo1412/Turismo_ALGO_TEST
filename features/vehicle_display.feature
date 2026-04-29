@@ -2,7 +2,7 @@
 Fonctionnalité: Affichage des offres véhicules par site pays
   En tant que client visitant un site spécifique à un pays
   Je veux voir toutes les durées disponibles pour le véhicule qui m'intéresse
-  Avec le prix le moins cher pour chaque combinaison durée/km
+  Avec la meilleure offre selon la priorité disponibilité/prix/plaque/date
   En respectant la règle : un véhicule immatriculé à l'étranger ne peut
   être proposé que sur une durée maximale de 6 mois.
 
@@ -166,6 +166,180 @@ Fonctionnalité: Affichage des offres véhicules par site pays
       | duree_mois | km_mois | prix | immatriculation | type |
       | 6          | 1000    | 550  | FR              | occasion |
       | 12         | 1000    | 650  | BE              | neuf |
+
+  # ─────────────────────────────────────────────────────────────────────────────
+  # MATRICE : cas de recette demandés
+  # ─────────────────────────────────────────────────────────────────────────────
+
+  Scénario: Cas 01 — 1 véhicule, 1 pays, disponible maintenant
+    Etant donné que la base de données contient les véhicules suivants :
+      | id      | catalogue | type | immatriculation | disponible_le |
+      | C01-BE  | CASE-01   | neuf | BE              | 2026-04-01    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | C01-BE   | 6          | 1000    | 301  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-04-27
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type |
+      | 6          | 1000    | 301  | BE              | neuf |
+
+  Scénario: Cas 02 — 2 véhicules, 1 pays, disponibles maintenant
+    Etant donné que la base de données contient les véhicules suivants :
+      | id          | catalogue | type     | immatriculation | disponible_le |
+      | C02-BE-OLD  | CASE-02   | occasion | BE              | 2026-04-01    |
+      | C02-BE-NEW  | CASE-02   | neuf     | BE              | 2026-04-05    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule    | duree_mois | km_mois | prix |
+      | C02-BE-OLD  | 6          | 1000    | 420  |
+      | C02-BE-NEW  | 6          | 1000    | 390  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-04-27
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type |
+      | 6          | 1000    | 390  | BE              | neuf |
+
+  Scénario: Cas 03 — 2 véhicules, 2 pays, disponibles maintenant
+    Etant donné que la base de données contient les véhicules suivants :
+      | id      | catalogue | type     | immatriculation | disponible_le |
+      | C03-BE  | CASE-03   | neuf     | BE              | 2026-04-01    |
+      | C03-FR  | CASE-03   | occasion | FR              | 2026-04-03    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | C03-BE   | 6          | 1000    | 510  |
+      | C03-FR   | 6          | 1000    | 480  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-04-27
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type     |
+      | 6          | 1000    | 480  | FR              | occasion |
+
+  Scénario: Cas 04 — 1 véhicule, 1 pays, disponible exactement dans 3 mois
+    Etant donné que la base de données contient les véhicules suivants :
+      | id      | catalogue | type | immatriculation | disponible_le |
+      | C04-BE  | CASE-04   | neuf | BE              | 2026-07-27    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | C04-BE   | 6          | 1000    | 610  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-04-27
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type |
+      | 6          | 1000    | 610  | BE              | neuf |
+
+  Scénario: Cas 05 — 1 véhicule, 1 pays, disponible dans moins d'un mois
+    Etant donné que la base de données contient les véhicules suivants :
+      | id      | catalogue | type | immatriculation | disponible_le |
+      | C05-BE  | CASE-05   | neuf | BE              | 2026-05-10    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | C05-BE   | 6          | 1000    | 505  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-04-27
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type |
+      | 6          | 1000    | 505  | BE              | neuf |
+
+  Scénario: Cas 06 — 2 véhicules, 2 pays, un disponible maintenant et un sous 1 mois moins cher
+    Etant donné que la base de données contient les véhicules suivants :
+      | id      | catalogue | type     | immatriculation | disponible_le |
+      | C06-BE  | CASE-06   | occasion | BE              | 2026-04-01    |
+      | C06-FR  | CASE-06   | neuf     | FR              | 2026-05-10    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | C06-BE   | 6          | 1000    | 700  |
+      | C06-FR   | 6          | 1000    | 450  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-04-27
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type     |
+      | 6          | 1000    | 700  | BE              | occasion |
+
+  Scénario: Cas 07 — 2 véhicules, 2 pays, un disponible maintenant et un sous 1 mois plus cher
+    Etant donné que la base de données contient les véhicules suivants :
+      | id      | catalogue | type     | immatriculation | disponible_le |
+      | C07-BE  | CASE-07   | occasion | BE              | 2026-04-01    |
+      | C07-FR  | CASE-07   | neuf     | FR              | 2026-05-10    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | C07-BE   | 6          | 1000    | 500  |
+      | C07-FR   | 6          | 1000    | 800  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-04-27
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type     |
+      | 6          | 1000    | 500  | BE              | occasion |
+
+  Scénario: Cas 08 — 2 véhicules, 2 pays, un disponible maintenant et un après 1 mois moins cher
+    Etant donné que la base de données contient les véhicules suivants :
+      | id      | catalogue | type     | immatriculation | disponible_le |
+      | C08-BE  | CASE-08   | occasion | BE              | 2026-04-01    |
+      | C08-FR  | CASE-08   | neuf     | FR              | 2026-06-10    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | C08-BE   | 6          | 1000    | 900  |
+      | C08-FR   | 6          | 1000    | 500  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-04-27
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type     |
+      | 6          | 1000    | 900  | BE              | occasion |
+
+  Scénario: Cas 09 — 2 véhicules, 2 pays, tous deux sous 1 mois avec un moins cher
+    Etant donné que la base de données contient les véhicules suivants :
+      | id      | catalogue | type     | immatriculation | disponible_le |
+      | C09-BE  | CASE-09   | occasion | BE              | 2026-05-05    |
+      | C09-FR  | CASE-09   | neuf     | FR              | 2026-05-20    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | C09-BE   | 6          | 1000    | 760  |
+      | C09-FR   | 6          | 1000    | 520  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-04-27
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type |
+      | 6          | 1000    | 520  | FR              | neuf |
+
+  Scénario: Cas 10 — 2 véhicules, 2 pays, disponible maintenant contre plus d'1 mois moins cher
+    Etant donné que la base de données contient les véhicules suivants :
+      | id      | catalogue | type     | immatriculation | disponible_le |
+      | C10-BE  | CASE-10   | occasion | BE              | 2026-04-01    |
+      | C10-LU  | CASE-10   | neuf     | LU              | 2026-06-12    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | C10-BE   | 6          | 1000    | 820  |
+      | C10-LU   | 6          | 1000    | 600  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-04-27
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type     |
+      | 6          | 1000    | 820  | BE              | occasion |
+
+  Scénario: Cas 11 — 2 véhicules, 2 pays, disponible maintenant contre moins d'1 mois moins cher
+    Etant donné que la base de données contient les véhicules suivants :
+      | id      | catalogue | type     | immatriculation | disponible_le |
+      | C11-BE  | CASE-11   | occasion | BE              | 2026-04-01    |
+      | C11-LU  | CASE-11   | neuf     | LU              | 2026-05-14    |
+    Et que la base de données contient les offres suivantes :
+      | vehicule | duree_mois | km_mois | prix |
+      | C11-BE   | 6          | 1000    | 810  |
+      | C11-LU   | 6          | 1000    | 530  |
+    Etant donné que je suis sur le site BE
+    Et que nous sommes le 2026-04-27
+    Quand je consulte le catalogue de véhicules
+    Alors je dois voir les offres suivantes :
+      | duree_mois | km_mois | prix | immatriculation | type     |
+      | 6          | 1000    | 810  | BE              | occasion |
 
   Scénario: Client français — 6 mois uniquement au prix belge (véhicules étrangers limités à 6 mois)
     Etant donné que je suis sur le site FR

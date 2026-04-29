@@ -89,17 +89,48 @@ flowchart TD
 
 ## Demo Data
 
-The dataset in `data/vehicles.json` intentionally contains many variants to exercise the main decision paths:
+The dataset in `data/vehicles.json` has two purposes:
 
-- `porsche-911-carrera-s`: multiple BE and LU variants with immediate and future availability.
-- `porsche-macan-4`: a foreign immediate 6-month offer and a BE future long-duration offer, showing how a new 12/18-month availability appears when the local stock enters the 3-month window.
-- `audi-rs6-avant`: immediate local stock plus a cheaper foreign 6-month stock; long foreign offers remain hidden by the 6-month cap.
-- `bmw-430i-cabriolet`: two future candidates under 1 month, where price wins.
-- `tesla-model-3`: one candidate under 1 month versus a later cheaper candidate, where earliest availability wins.
-- `mercedes-gle-coupe`: no candidate under 1 month, where earliest availability wins even if a later stock is cheaper.
-- `alfa-romeo-giulia`: same immediate price where the local plate wins.
-- `range-rover-sport`: same immediate price with no local plate, where the oldest availability date wins.
-- `volvo-ex30`: future stock outside the 3-month window for early simulated dates.
+- Realistic demo models such as Porsche, Audi, BMW, Tesla, Mercedes, Alfa Romeo, Range Rover, and Volvo make the catalog feel closer to a real landing page.
+- Explicit `Case XX` models make every business rule easy to verify without guessing which vehicle is supposed to demonstrate which behavior.
+
+Unless specified otherwise, the case matrix below is designed to be tested on the BE website with `today=2026-04-27` and the slot `6 months / 1000 km`.
+
+| Requested case | Demo catalog id | Demo vehicle name | What should happen |
+| --- | --- | --- | --- |
+| 1 vehicle, 1 country, available now | `case-01-one-local-now` | Case 01 Renault Clio | The only BE stock is displayed at `301 EUR`. |
+| 2 vehicles, 1 country, both available now | `case-02-two-local-now` | Case 02 Peugeot 308 | Both stocks are BE and immediate, so the cheapest stock wins: `390 EUR`. |
+| 2 vehicles, 2 countries, both available now | `case-03-two-countries-now` | Case 03 Volkswagen Golf | Both are immediate, so price wins even if the cheapest stock is foreign: FR at `480 EUR`. |
+| 1 vehicle, 1 country, available exactly in 3 months | `case-04-one-local-three-months` | Case 04 Kia EV3 | The stock is included because `2026-07-27` is exactly 3 months after `2026-04-27`. |
+| 1 vehicle, 1 country, available in less than 1 month | `case-05-one-local-under-one-month` | Case 05 Fiat 500e | The only future stock is displayed because it is inside the 3-month window. |
+| 2 vehicles, 2 countries, one now and one under 1 month cheaper | `case-06-now-vs-under-one-cheaper` | Case 06 Mini Cooper | Immediate availability is absolute priority, so BE now at `700 EUR` beats FR future at `450 EUR`. |
+| 2 vehicles, 2 countries, one now and one under 1 month more expensive | `case-07-now-vs-under-one-expensive` | Case 07 Toyota Yaris | BE now at `500 EUR` wins; the future FR stock is both later and more expensive. |
+| 2 vehicles, 2 countries, one now and one over 1 month cheaper | `case-08-now-vs-over-one-cheaper` | Case 08 Nissan Qashqai | BE now at `900 EUR` wins even though FR later is cheaper. |
+| 2 vehicles, 2 countries, both under 1 month with one cheaper | `case-09-two-under-one-cheaper` | Case 09 Cupra Formentor | No stock is immediate and both are under 1 month, so price wins: FR at `520 EUR`. |
+| 2 vehicles, 2 countries, one now and one over 1 month cheaper | `case-10-now-vs-over-one-cheaper-bis` | Case 10 Skoda Enyaq | Same priority as Case 08, kept as a second explicit regression case: BE now wins. |
+| 2 vehicles, 2 countries, one now and one under 1 month cheaper | `case-11-now-vs-under-one-cheaper-bis` | Case 11 Opel Astra | Same priority as Case 06, kept as a second explicit regression case: BE now wins. |
+
+Additional edge cases that are easy to forget:
+
+| Edge case | Demo catalog id | Demo vehicle name | What should happen |
+| --- | --- | --- | --- |
+| Immediate candidates with same price and one local plate | `case-12-same-price-local-wins` | Case 12 Mazda CX-5 | BE wins over FR because the price is tied and BE matches the visited site. |
+| Immediate candidates with same price and no local plate | `case-13-same-price-oldest-wins` | Case 13 Jaguar F-Pace | FR wins over LU because neither plate is BE and FR has been available longer. |
+| No immediate stock, only one candidate under 1 month, later stock is cheaper | `case-14-one-under-one-vs-later-cheaper` | Case 14 Honda Civic | The first available stock wins even though the later stock is cheaper. |
+| No immediate stock and no candidate under 1 month | `case-15-no-under-one-earliest-wins` | Case 15 Polestar 2 | The earliest availability date wins before price is considered. |
+| Foreign 12-month offer exists but must be hidden, local long-duration offer appears | `case-16-foreign-cap-local-long` | Case 16 Citroen C5 X | FR can only provide 6 months on BE; BE provides the visible 12-month slot. |
+| Stock outside the 3-month window | `case-17-outside-three-months` | Case 17 Hyundai Ioniq 5 | Hidden on `2026-04-27`, then enters the catalog once the simulated date reaches `2026-05-01`. |
+
+The older realistic examples remain useful for visual testing:
+
+- `porsche-macan-4`: shows a foreign immediate 6-month offer and BE future long-duration offers.
+- `audi-rs6-avant`: shows immediate local stock plus a cheaper foreign 6-month stock.
+- `bmw-430i-cabriolet`: shows two future candidates under 1 month where price wins.
+- `tesla-model-3`: shows one candidate under 1 month versus a later cheaper candidate.
+- `mercedes-gle-coupe`: shows earliest future availability winning when no stock is under 1 month.
+- `alfa-romeo-giulia`: shows the local-plate tie-break.
+- `range-rover-sport`: shows the oldest-availability tie-break.
+- `volvo-ex30`: shows stock outside the 3-month window.
 
 ## Run Locally
 
@@ -159,6 +190,7 @@ behave
 The BDD scenarios cover:
 
 - foreign-registered vehicles limited to 6 months
+- the full requested 11-case priority matrix
 - immediate availability priority
 - price priority among immediate vehicles
 - local-plate tie-breaks

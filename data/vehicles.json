@@ -296,6 +296,457 @@
         { "duration_months": 12, "km_per_month": 1000, "price": 540 },
         { "duration_months": 18, "km_per_month": 1000, "price": 510 }
       ]
+    },
+    {
+      "id": "case-01-renault-clio-be",
+      "catalog_id": "case-01-one-local-now",
+      "name": "Case 01 Renault Clio",
+      "brand": "Renault",
+      "power_cv": 145,
+      "category": "Test Case",
+      "type": "neuf",
+      "registration_country": "BE",
+      "availability_date": "2026-04-01",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 301 }
+      ]
+    },
+    {
+      "id": "case-02-peugeot-308-be-used",
+      "catalog_id": "case-02-two-local-now",
+      "name": "Case 02 Peugeot 308",
+      "brand": "Peugeot",
+      "power_cv": 180,
+      "category": "Test Case",
+      "type": "occasion",
+      "registration_country": "BE",
+      "availability_date": "2026-04-01",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 420 }
+      ]
+    },
+    {
+      "id": "case-02-peugeot-308-be-new",
+      "catalog_id": "case-02-two-local-now",
+      "name": "Case 02 Peugeot 308",
+      "brand": "Peugeot",
+      "power_cv": 180,
+      "category": "Test Case",
+      "type": "neuf",
+      "registration_country": "BE",
+      "availability_date": "2026-04-05",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 390 }
+      ]
+    },
+    {
+      "id": "case-03-vw-golf-be",
+      "catalog_id": "case-03-two-countries-now",
+      "name": "Case 03 Volkswagen Golf",
+      "brand": "Volkswagen",
+      "power_cv": 150,
+      "category": "Test Case",
+      "type": "neuf",
+      "registration_country": "BE",
+      "availability_date": "2026-04-01",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 510 }
+      ]
+    },
+    {
+      "id": "case-03-vw-golf-fr",
+      "catalog_id": "case-03-two-countries-now",
+      "name": "Case 03 Volkswagen Golf",
+      "brand": "Volkswagen",
+      "power_cv": 150,
+      "category": "Test Case",
+      "type": "occasion",
+      "registration_country": "FR",
+      "availability_date": "2026-04-03",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 480 }
+      ]
+    },
+    {
+      "id": "case-04-kia-ev3-be",
+      "catalog_id": "case-04-one-local-three-months",
+      "name": "Case 04 Kia EV3",
+      "brand": "Kia",
+      "power_cv": 204,
+      "category": "Test Case",
+      "type": "neuf",
+      "registration_country": "BE",
+      "availability_date": "2026-07-27",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 610 }
+      ]
+    },
+    {
+      "id": "case-05-fiat-500e-be",
+      "catalog_id": "case-05-one-local-under-one-month",
+      "name": "Case 05 Fiat 500e",
+      "brand": "Fiat",
+      "power_cv": 118,
+      "category": "Test Case",
+      "type": "neuf",
+      "registration_country": "BE",
+      "availability_date": "2026-05-10",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 505 }
+      ]
+    },
+    {
+      "id": "case-06-mini-cooper-be",
+      "catalog_id": "case-06-now-vs-under-one-cheaper",
+      "name": "Case 06 Mini Cooper",
+      "brand": "Mini",
+      "power_cv": 178,
+      "category": "Test Case",
+      "type": "occasion",
+      "registration_country": "BE",
+      "availability_date": "2026-04-01",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 700 }
+      ]
+    },
+    {
+      "id": "case-06-mini-cooper-fr",
+      "catalog_id": "case-06-now-vs-under-one-cheaper",
+      "name": "Case 06 Mini Cooper",
+      "brand": "Mini",
+      "power_cv": 178,
+      "category": "Test Case",
+      "type": "neuf",
+      "registration_country": "FR",
+      "availability_date": "2026-05-10",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 450 }
+      ]
+    },
+    {
+      "id": "case-07-toyota-yaris-be",
+      "catalog_id": "case-07-now-vs-under-one-expensive",
+      "name": "Case 07 Toyota Yaris",
+      "brand": "Toyota",
+      "power_cv": 130,
+      "category": "Test Case",
+      "type": "occasion",
+      "registration_country": "BE",
+      "availability_date": "2026-04-01",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 500 }
+      ]
+    },
+    {
+      "id": "case-07-toyota-yaris-fr",
+      "catalog_id": "case-07-now-vs-under-one-expensive",
+      "name": "Case 07 Toyota Yaris",
+      "brand": "Toyota",
+      "power_cv": 130,
+      "category": "Test Case",
+      "type": "neuf",
+      "registration_country": "FR",
+      "availability_date": "2026-05-10",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 800 }
+      ]
+    },
+    {
+      "id": "case-08-nissan-qashqai-be",
+      "catalog_id": "case-08-now-vs-over-one-cheaper",
+      "name": "Case 08 Nissan Qashqai",
+      "brand": "Nissan",
+      "power_cv": 190,
+      "category": "Test Case",
+      "type": "occasion",
+      "registration_country": "BE",
+      "availability_date": "2026-04-01",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 900 }
+      ]
+    },
+    {
+      "id": "case-08-nissan-qashqai-fr",
+      "catalog_id": "case-08-now-vs-over-one-cheaper",
+      "name": "Case 08 Nissan Qashqai",
+      "brand": "Nissan",
+      "power_cv": 190,
+      "category": "Test Case",
+      "type": "neuf",
+      "registration_country": "FR",
+      "availability_date": "2026-06-10",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 500 }
+      ]
+    },
+    {
+      "id": "case-09-cupra-formentor-be",
+      "catalog_id": "case-09-two-under-one-cheaper",
+      "name": "Case 09 Cupra Formentor",
+      "brand": "Cupra",
+      "power_cv": 245,
+      "category": "Test Case",
+      "type": "occasion",
+      "registration_country": "BE",
+      "availability_date": "2026-05-05",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 760 }
+      ]
+    },
+    {
+      "id": "case-09-cupra-formentor-fr",
+      "catalog_id": "case-09-two-under-one-cheaper",
+      "name": "Case 09 Cupra Formentor",
+      "brand": "Cupra",
+      "power_cv": 245,
+      "category": "Test Case",
+      "type": "neuf",
+      "registration_country": "FR",
+      "availability_date": "2026-05-20",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 520 }
+      ]
+    },
+    {
+      "id": "case-10-skoda-enyaq-be",
+      "catalog_id": "case-10-now-vs-over-one-cheaper-bis",
+      "name": "Case 10 Skoda Enyaq",
+      "brand": "Skoda",
+      "power_cv": 286,
+      "category": "Test Case",
+      "type": "occasion",
+      "registration_country": "BE",
+      "availability_date": "2026-04-01",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 820 }
+      ]
+    },
+    {
+      "id": "case-10-skoda-enyaq-lu",
+      "catalog_id": "case-10-now-vs-over-one-cheaper-bis",
+      "name": "Case 10 Skoda Enyaq",
+      "brand": "Skoda",
+      "power_cv": 286,
+      "category": "Test Case",
+      "type": "neuf",
+      "registration_country": "LU",
+      "availability_date": "2026-06-12",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 600 }
+      ]
+    },
+    {
+      "id": "case-11-opel-astra-be",
+      "catalog_id": "case-11-now-vs-under-one-cheaper-bis",
+      "name": "Case 11 Opel Astra",
+      "brand": "Opel",
+      "power_cv": 180,
+      "category": "Test Case",
+      "type": "occasion",
+      "registration_country": "BE",
+      "availability_date": "2026-04-01",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 810 }
+      ]
+    },
+    {
+      "id": "case-11-opel-astra-lu",
+      "catalog_id": "case-11-now-vs-under-one-cheaper-bis",
+      "name": "Case 11 Opel Astra",
+      "brand": "Opel",
+      "power_cv": 180,
+      "category": "Test Case",
+      "type": "neuf",
+      "registration_country": "LU",
+      "availability_date": "2026-05-14",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 530 }
+      ]
+    },
+    {
+      "id": "case-12-mazda-cx5-fr",
+      "catalog_id": "case-12-same-price-local-wins",
+      "name": "Case 12 Mazda CX-5",
+      "brand": "Mazda",
+      "power_cv": 194,
+      "category": "Test Case",
+      "type": "occasion",
+      "registration_country": "FR",
+      "availability_date": "2026-04-01",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 640 }
+      ]
+    },
+    {
+      "id": "case-12-mazda-cx5-be",
+      "catalog_id": "case-12-same-price-local-wins",
+      "name": "Case 12 Mazda CX-5",
+      "brand": "Mazda",
+      "power_cv": 194,
+      "category": "Test Case",
+      "type": "neuf",
+      "registration_country": "BE",
+      "availability_date": "2026-04-10",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 640 }
+      ]
+    },
+    {
+      "id": "case-13-jaguar-fpace-fr",
+      "catalog_id": "case-13-same-price-oldest-wins",
+      "name": "Case 13 Jaguar F-Pace",
+      "brand": "Jaguar",
+      "power_cv": 404,
+      "category": "Test Case",
+      "type": "occasion",
+      "registration_country": "FR",
+      "availability_date": "2026-03-15",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 980 }
+      ]
+    },
+    {
+      "id": "case-13-jaguar-fpace-lu",
+      "catalog_id": "case-13-same-price-oldest-wins",
+      "name": "Case 13 Jaguar F-Pace",
+      "brand": "Jaguar",
+      "power_cv": 404,
+      "category": "Test Case",
+      "type": "neuf",
+      "registration_country": "LU",
+      "availability_date": "2026-04-10",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 980 }
+      ]
+    },
+    {
+      "id": "case-14-honda-civic-be",
+      "catalog_id": "case-14-one-under-one-vs-later-cheaper",
+      "name": "Case 14 Honda Civic",
+      "brand": "Honda",
+      "power_cv": 184,
+      "category": "Test Case",
+      "type": "occasion",
+      "registration_country": "BE",
+      "availability_date": "2026-05-12",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 710 }
+      ]
+    },
+    {
+      "id": "case-14-honda-civic-fr",
+      "catalog_id": "case-14-one-under-one-vs-later-cheaper",
+      "name": "Case 14 Honda Civic",
+      "brand": "Honda",
+      "power_cv": 184,
+      "category": "Test Case",
+      "type": "neuf",
+      "registration_country": "FR",
+      "availability_date": "2026-06-20",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 500 }
+      ]
+    },
+    {
+      "id": "case-15-polestar-2-be",
+      "catalog_id": "case-15-no-under-one-earliest-wins",
+      "name": "Case 15 Polestar 2",
+      "brand": "Polestar",
+      "power_cv": 408,
+      "category": "Test Case",
+      "type": "occasion",
+      "registration_country": "BE",
+      "availability_date": "2026-06-10",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 760 }
+      ]
+    },
+    {
+      "id": "case-15-polestar-2-fr",
+      "catalog_id": "case-15-no-under-one-earliest-wins",
+      "name": "Case 15 Polestar 2",
+      "brand": "Polestar",
+      "power_cv": 408,
+      "category": "Test Case",
+      "type": "neuf",
+      "registration_country": "FR",
+      "availability_date": "2026-07-05",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 530 }
+      ]
+    },
+    {
+      "id": "case-16-citroen-c5x-fr",
+      "catalog_id": "case-16-foreign-cap-local-long",
+      "name": "Case 16 Citroen C5 X",
+      "brand": "Citroen",
+      "power_cv": 225,
+      "category": "Test Case",
+      "type": "occasion",
+      "registration_country": "FR",
+      "availability_date": "2026-04-01",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 420 },
+        { "duration_months": 12, "km_per_month": 1000, "price": 400 }
+      ]
+    },
+    {
+      "id": "case-16-citroen-c5x-be",
+      "catalog_id": "case-16-foreign-cap-local-long",
+      "name": "Case 16 Citroen C5 X",
+      "brand": "Citroen",
+      "power_cv": 225,
+      "category": "Test Case",
+      "type": "neuf",
+      "registration_country": "BE",
+      "availability_date": "2026-05-20",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 12, "km_per_month": 1000, "price": 620 }
+      ]
+    },
+    {
+      "id": "case-17-hyundai-ioniq5-be",
+      "catalog_id": "case-17-outside-three-months",
+      "name": "Case 17 Hyundai Ioniq 5",
+      "brand": "Hyundai",
+      "power_cv": 325,
+      "category": "Test Case",
+      "type": "neuf",
+      "registration_country": "BE",
+      "availability_date": "2026-08-01",
+      "image_url": "",
+      "offers": [
+        { "duration_months": 6, "km_per_month": 1000, "price": 550 }
+      ]
     }
   ]
 }
